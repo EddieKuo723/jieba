@@ -18,10 +18,28 @@ jieba
 * 支持自定义词典
 * MIT 授权协议
 
+更新日志
+========
+
+### Python 3.13 兼容性更新（2026-03）
+
+本版本修复了 jieba 在 **Python 3.13** 下的兼容性问题，之前运行于 Python 3.11 的版本在 3.13 中会出现错误。
+
+**已修复的问题：**
+
+1. **无效转义序列 (`SyntaxError`)** — Python 3.13 将正则表达式字符串中的无效转义序列（如 `\.`、`\s`、`\-`）从 `SyntaxWarning` 升级为硬性 `SyntaxError`。受影响的文件已将对应字符串字面量改为 [raw strings](https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals)（`r"..."`）：
+   - `jieba/__init__.py`
+   - `jieba/posseg/__init__.py`
+   - `jieba/finalseg/__init__.py`
+
+2. **`distutils` 模块移除** — Python 3.13 完全移除了 `distutils`。`setup.py` 中的 `from distutils.core import setup` 已替换为 `from setuptools import setup`。
+
+---
+
 安装说明
 =======
 
-代码对 Python 2/3 均兼容
+代码对 Python 2/3 均兼容（包括 Python 3.13）
 
 * 全自动安装：`easy_install jieba` 或者 `pip install jieba` / `pip3 install jieba`
 * 半自动安装：先下载 http://pypi.python.org/pypi/jieba/ ，解压后运行 `python setup.py install`
@@ -496,6 +514,24 @@ Features
 * MIT License
 
 
+Changelog
+=========
+
+### Python 3.13 Compatibility Update (2026-03)
+
+This release fixes compatibility issues that prevented jieba (previously working on Python 3.11) from running on **Python 3.13**.
+
+**Issues fixed:**
+
+1. **Invalid escape sequences (`SyntaxError`)** — Python 3.13 promotes invalid regex escape sequences (e.g. `\.`, `\s`, `\-`) from `SyntaxWarning` to a hard `SyntaxError`. All regex string literals in the affected files have been converted to [raw strings](https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals) (`r"..."`):
+   - `jieba/__init__.py`
+   - `jieba/posseg/__init__.py`
+   - `jieba/finalseg/__init__.py`
+
+2. **`distutils` module removed** — Python 3.13 removed `distutils` entirely. The `from distutils.core import setup` import in `setup.py` has been replaced with `from setuptools import setup`.
+
+---
+
 Online demo
 =========
 http://jiebademo.ap01.aws.af.cm/
@@ -508,6 +544,7 @@ Usage
 * Semi-automatic installation: Download http://pypi.python.org/pypi/jieba/ , run `python setup.py install` after extracting.
 * Manual installation: place the `jieba` directory in the current directory or python `site-packages` directory.
 * `import jieba`.
+* Requires Python 2.6+, Python 3.x (including **Python 3.13**).
 
 Algorithm
 ========
